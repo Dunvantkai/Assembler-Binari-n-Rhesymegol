@@ -18,7 +18,7 @@ def creu(filename):
     try:
         shutil.rmtree(filename)
     except OSError as e:
-        print("Error deleting folder")
+        print("Error deleting folder or no folder found")
     os.mkdir(filename)
     txtfilenamepath = os.path.join(filename, filename + ".txt")
     with open(txtfilenamepath, "w") as f:
@@ -76,23 +76,29 @@ def compile(programData, txtfilenamepath):
             number, operand_number, opcode_text, comment = data
             number = int(number)
             if loadAddress == True:
-                f.write(operand_number + opcode_text + ":" + comment + "\n")
+                B8binary = opcode_text
+                try :
+                    B8binary = int(B8binary)
+                    B8binary = format(B8binary, '08b')
+                    f.write(B8binary + ":" + comment + "\n")
+                except ValueError:
+                    issue_found[number] = f"Invalid LOAD address : {B8binary}"
                 address += 1
                 loadAddress = False
-                continue
             while address < number:
                 f.write("11111111\n")
                 address += 1
             if number == address:
                 if opcode_text in opcodeDic:
                     opcode = opcodeDic[opcode_text]
-                    issue_found = oprand_check(opcode_text, operand_number, issue_found, number)
                     if opcode_text == ("LOAD"):
                         loadAddress = True
+                    issue_found = oprand_check(opcode_text, operand_number, issue_found, number)
                 else:
                     issue_found[number] = f"Unknown opcode: {opcode_text}"
                 f.write(operand_number + opcode + ":" + comment + "\n")
                 address += 1
+        # f.write("11111111\n")           
     return issue_found  
                 
 def oprand_check(opcode_text, operand_number, issue_found, number):
@@ -188,12 +194,13 @@ def main():
     issue_found = compile(programData, txtfilenamepath)
     if issue_found:
         print("Issues found during compilation:")
-        for line_num, issue in issue_found.items():
-            print(f"Line {line_num}: {issue}")
+        for line, issue in issue_found.items():
+            print(f"Line {line}: {issue}")
     else:
         print("Compilation successful with no issues.")
-    input("Press Enter to continue...")
+    
 while True:
     main()
+    input("Press Enter to continue...")
     os.system('cls')
 
