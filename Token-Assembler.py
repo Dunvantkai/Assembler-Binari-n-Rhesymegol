@@ -76,7 +76,7 @@ def compile(programData, txtfilenamepath):
             number, operand_number, opcode_text, comment = data
             number = int(number)
             if loadAddress == True:
-                f.write(operand_number + opcode + ":" + comment + "\n")
+                f.write(operand_number + opcode_text + ":" + comment + "\n")
                 address += 1
                 loadAddress = False
                 continue
