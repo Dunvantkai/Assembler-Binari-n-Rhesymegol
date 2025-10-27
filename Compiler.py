@@ -71,6 +71,7 @@ def compile(programData, txtfilenamepath):
         "CLSP" : "11110",
         "HALT" : "11111"
     }
+   
     with open(txtfilenamepath, "w") as f:
         for data in programData: 
             number, operand_number, opcode_text, comment = data
