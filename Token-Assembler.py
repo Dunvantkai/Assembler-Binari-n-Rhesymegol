@@ -98,7 +98,7 @@ def compile(programData, txtfilenamepath):
                     issue_found[number] = f"Unknown opcode: {opcode_text}"
                 f.write(operand_number + opcode + ":" + comment + "\n")
                 address += 1
-        # f.write("11111111\n")           
+            f.write("11111111\n")           
     return issue_found  
                 
 def oprand_check(opcode_text, operand_number, issue_found, number):
