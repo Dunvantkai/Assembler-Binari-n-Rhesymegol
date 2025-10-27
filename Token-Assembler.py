@@ -45,7 +45,7 @@ def compile(programData, txtfilenamepath):
     address = 0
     issue_found = {}
     opcodeDic = {
-        "HALT": "00000",
+        "NOP": "00000",
         "READL" : "00001",
         "READH" : "00010",
         "WRITL" : "00011",
@@ -63,6 +63,7 @@ def compile(programData, txtfilenamepath):
         "WRITP" : "01111",
         "SEG" : "10000",
         "PLOT" : "10001",
+        "HALT" : "10010",
         "CLSA" : "11011",
         "CLSB" : "11100",
         "CLSO" : "11101",
