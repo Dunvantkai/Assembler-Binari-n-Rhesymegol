@@ -74,7 +74,7 @@ def compile(programData, txtfilenamepath):
             number, operand_number, opcode_text, comment = data
             number = int(number)
             while address < number:
-                f.write("00000000" + comment + "\n")
+                f.write("00000000\n")
                 address += 1
             if number == address:
                 if opcode_text in opcodeDic:
