@@ -4,7 +4,6 @@ import shutil
 def read_bnr_file():
     while True:
         filename = input("Enter the filename: ")
-
         fullfilename = filename+".BNR"
         try:
             with open(fullfilename, "r") as f:
@@ -74,9 +73,8 @@ def compile(programData, txtfilenamepath):
         for data in programData: 
             number, operand_number, opcode_text, comment = data
             number = int(number)
-            print(address, number)
             while address < number:
-                f.write("00000000:\n")
+                f.write("00000000" + comment + "\n")
                 address += 1
             if number == address:
                 if opcode_text in opcodeDic:
@@ -92,6 +90,14 @@ def main():
     txtfilenamepath = creu(filename)
     programData = build(lîns, txtfilenamepath)
     issue_found = compile(programData, txtfilenamepath)
-    # print(issue_found)
-main()
+    if issue_found:
+        print("Issues found during compilation:")
+        for line_num, issue in issue_found.items():
+            print(f"Line {line_num}: {issue}")
+    else:
+        print("Compilation successful with no issues.")
+    input("Press Enter to continue...")
+while True:
+    main()
+    os.system('cls')
 
