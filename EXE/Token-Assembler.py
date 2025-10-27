@@ -64,7 +64,7 @@ def compile(programData, txtfilenamepath):
         "WRITP" : "01111",
         "SEG" : "10000",
         "PLOT" : "10001",
-        "CLSAL" : "10010",
+        "CLSAL" : "11010",
         "CLSA" : "11011",
         "CLSB" : "11100",
         "CLSO" : "11101",
@@ -76,12 +76,12 @@ def compile(programData, txtfilenamepath):
             number, operand_number, opcode_text, comment = data
             number = int(number)
             if loadAddress == True:
-                f.write(operand_number + opcode + ":" + comment + "\n")
+                f.write(operand_number + opcode_text + ":" + comment + "\n")
                 address += 1
                 loadAddress = False
                 continue
             while address < number:
-                f.write("11111\n")
+                f.write("11111111\n")
                 address += 1
             if number == address:
                 if opcode_text in opcodeDic:
