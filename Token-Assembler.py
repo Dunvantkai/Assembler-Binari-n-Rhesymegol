@@ -25,15 +25,74 @@ def creu(filename):
         f.write(":Machine code\n")
     return txtfilenamepath
 
-def build():
-    return
-
-
-
+def build(lîns,txtfilenamepath):
+    programData = []
+    for line in lîns:
+        parts = line.split(":")
+        comment = parts[1].strip() if len(parts) > 1 else ""
+        before_colon = parts[0].strip()
+        number, opcode = before_colon.split(maxsplit=1)
+        operand_number = opcode[:3] 
+        opcode_text = opcode[3:]
+        programData.append((number, operand_number, opcode_text, comment))
+        return (programData, txtfilenamepath)
+        # print("Number:", number)
+        # print("Operand number:", operand_number)
+        # print("Opcode text:", opcode_text)
+        # print("Comment:", comment)
+def compile(programData, txtfilenamepath): 
+    address = 0
+    issue_found = {}
+    opcodeDic = {
+        "HALT": "00000",
+        "READL" : "00001",
+        "READH" : "00010",
+        "WRITL" : "00011",
+        "WRITH" : "00100",
+        "SAVA" : "00101",
+        "SAVB" : "00110",
+        "LOGIC" : "00111",
+        "MATH" : "01000",
+        "RAND" : "01001",
+        "SAVJ" : "01010",
+        "LOAD" : "01011",
+        "IF" : "01100",
+        "INPUT" : "01101",
+        "READP" : "01110",
+        "WRITP" : "01111",
+        "SEG" : "10000",
+        "PLOT" : "10001",
+        "CLSA" : "11011",
+        "CLSB" : "11100",
+        "CLSO" : "11101",
+        "CLSP" : "11110",
+        "CLSAL" : "11111"
+    }
+    with open(txtfilenamepath, "w") as f:
+        for data in programData: 
+            number, operand_number, opcode_text, comment = data
+            number = int(number)
+            if number == address:
+                if opcode_text in opcodeDic:
+                    opcode = opcodeDic[opcode_text]
+                else: 
+                    issue_found[number] = f"Unknown opcode: {opcode_text}"
+                f.wright(operand_number, opcode + ":" + comment + "\n")
+                number += 1
+            elif number > address:
+                while address < number:
+                    f.wright("00000000\n")
+                    number += 1
+    return issue_found
+         
 def main():        
     lîns, filename = read_bnr_file()
     txtfilenamepath = creu(filename)
-    build(lîns, txtfilenamepath)
-
+    programData = build(lîns, txtfilenamepath)
+    issue_found = compile(programData, txtfilenamepath)
+    if issue_found:
+        print("Possible Issues Found:")
+        for issue in issue_found.values():
+            print(issue)
 main()
 
