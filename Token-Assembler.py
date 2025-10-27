@@ -86,14 +86,101 @@ def compile(programData, txtfilenamepath):
             if number == address:
                 if opcode_text in opcodeDic:
                     opcode = opcodeDic[opcode_text]
-                    if opcode == ("01011"):
+                    issue_found = oprand_check(opcode_text, operand_number, issue_found, number)
+                    if opcode_text == ("LOAD"):
                         loadAddress = True
                 else:
                     issue_found[number] = f"Unknown opcode: {opcode_text}"
                 f.write(operand_number + opcode + ":" + comment + "\n")
                 address += 1
-    return issue_found                  
-        
+    return issue_found  
+                
+def oprand_check(opcode_text, operand_number, issue_found, number):
+
+    LOGICOPRANDS = {
+        "001" : "AND",
+        "010" : "NAND",
+        "011" : "OR",
+        "100" : "NOR",
+        "101" : "XOR",
+        "110" : "XNOR",
+        "111" : "NOT"
+        }
+    MATHOPRANDS = {
+        "001" : "ADD",
+        "010" : "SUB",
+        "011" : "MULT",
+        "100" : "DIVQ",
+        "101" : "DIVR"
+    }
+    RANDOPRANDS = {
+        "000" : "1-bit",
+        "001" : "2-bit",
+        "010" : "3-bit",
+        "011" : "4-bit",
+        "100" : "5-bit",
+        "101" : "6-bit",
+        "110" : "7-bit",
+        "111" : "8-bit" 
+    }
+    SAVJOPRANDS = {
+        "001" : "LOW",
+        "010" : "HIGH"
+    }
+    IFOPRANDS = {
+        "001" : "NONE",
+        "010" : "==",
+        "011" : ">>",
+        "100" : "<<"
+    }
+    WRITPOPRANDS = {
+        "001" : "Button 1",
+        "010" : "Button 2",
+        "011" : "Button 3",
+        "100" : "Button 4",
+        "101" : "Button 5",
+        "110" : "Button 6",
+        "111" : "Button 7"
+    }
+    SEGOPRANDS = {
+        "001" : "7 Segment 1",
+        "010" : "7 Segment 2",
+        "011" : "7 Segment 3",
+        "100" : "Button 8",
+        "101" : "Button 9"
+    }
+    CLSOOPRANDS = {
+        "001" : "SCR-1",
+        "010" : "SCR-2",
+        "011" : "SCR-3",
+        "100" : "SCR-ALL"
+    }
+    if opcode_text == "LOGIC":
+        if operand_number not in LOGICOPRANDS:
+            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
+    if opcode_text == "MATH":
+        if operand_number not in MATHOPRANDS:
+            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
+    if opcode_text == "RAND":
+        if operand_number not in RANDOPRANDS:
+            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
+    if opcode_text == "SAVJ":
+        if operand_number not in SAVJOPRANDS:
+            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
+    if opcode_text == "IF":
+        if operand_number not in IFOPRANDS:
+            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
+    if opcode_text == "WRITPOPRANDS":
+        if operand_number not in WRITPOPRANDS:
+            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
+    if opcode_text == "SEGOPRANDS":
+        if operand_number not in SEGOPRANDS:
+            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
+    if opcode_text == "CLSOOPRANDS":
+        if operand_number not in CLSOOPRANDS:
+            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
+    return issue_found        
+
 def main():        
     lîns, filename = read_bnr_file()
     txtfilenamepath = creu(filename)
