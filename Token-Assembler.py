@@ -36,10 +36,10 @@ def build(lîns,txtfilenamepath):
         operand_number = opcode[:3] 
         opcode_text = opcode[3:]
         programData.append((number, operand_number, opcode_text, comment))
-    print("Number:", number)
-    print("Operand number:", operand_number)
-    print("Opcode text:", opcode_text)
-    print("Comment:", comment)
+    # print("Number:", number)
+    # print("Operand number:", operand_number)
+    # print("Opcode text:", opcode_text)
+    # print("Comment:", comment)
     return (programData)
 
 def compile(programData, txtfilenamepath): 
@@ -74,30 +74,24 @@ def compile(programData, txtfilenamepath):
         for data in programData: 
             number, operand_number, opcode_text, comment = data
             number = int(number)
+            print(address, number)
+            while address < number:
+                f.write("00000000:\n")
+                address += 1
             if number == address:
                 if opcode_text in opcodeDic:
                     opcode = opcodeDic[opcode_text]
-                    f.write(operand_number + opcode + ":" + comment + "\n")
-                    address += 1
-                else: 
+                else:
                     issue_found[number] = f"Unknown opcode: {opcode_text}"
-                    f.write("00000000\n")
-                    address += 1
-            elif number > address:
-                while address < number:
-                    f.write("00000000\n")
-                    address += 1
-                
-    return issue_found
-         
+                f.write(operand_number + opcode + ":" + comment + "\n")
+                address += 1
+    return issue_found                  
+        
 def main():        
     lîns, filename = read_bnr_file()
     txtfilenamepath = creu(filename)
     programData = build(lîns, txtfilenamepath)
     issue_found = compile(programData, txtfilenamepath)
-    if issue_found:
-        print("Possible Issues Found:")
-        for issue in issue_found.values():
-            print(issue)
+    # print(issue_found)
 main()
 
