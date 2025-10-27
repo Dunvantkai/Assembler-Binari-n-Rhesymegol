@@ -42,6 +42,7 @@ def build(lîns,txtfilenamepath):
     return (programData)
 
 def compile(programData, txtfilenamepath): 
+    loadAddress = False
     address = 0
     issue_found = {}
     opcodeDic = {
@@ -74,12 +75,19 @@ def compile(programData, txtfilenamepath):
         for data in programData: 
             number, operand_number, opcode_text, comment = data
             number = int(number)
+            if loadAddress == True:
+                f.write(operand_number + opcode + ":" + comment + "\n")
+                address += 1
+                loadAddress = False
+                continue
             while address < number:
                 f.write("11111\n")
                 address += 1
             if number == address:
                 if opcode_text in opcodeDic:
                     opcode = opcodeDic[opcode_text]
+                    if opcode == ("01011"):
+                        loadAddress = True
                 else:
                     issue_found[number] = f"Unknown opcode: {opcode_text}"
                 f.write(operand_number + opcode + ":" + comment + "\n")
