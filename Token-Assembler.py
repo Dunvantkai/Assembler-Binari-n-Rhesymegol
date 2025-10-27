@@ -1,4 +1,5 @@
 import os
+import shutil
 
 def read_bnr_file():
     while True:
@@ -14,22 +15,25 @@ def read_bnr_file():
             os.system('cls')
 
 def creu(filename):
-    if os.path.isfile(filename):
-        os.remove(filename)
+    try:
+        shutil.rmtree(filename)
+    except OSError as e:
+        print("Error deleting folder")
     os.mkdir(filename)
     txtfilenamepath = os.path.join(filename, filename + ".txt")
     with open(txtfilenamepath, "w") as f:
         f.write(":Machine code\n")
+    return txtfilenamepath
 
-# def build():
-#     return
+def build():
+    return
 
 
 
 def main():        
     lîns, filename = read_bnr_file()
-    creu(filename)
-    # build(lîns, filename)
+    txtfilenamepath = creu(filename)
+    build(lîns, txtfilenamepath)
 
 main()
 
