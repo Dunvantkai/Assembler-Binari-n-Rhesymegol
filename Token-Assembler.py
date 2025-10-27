@@ -16,19 +16,20 @@ def read_bnr_file():
 def creu(filename):
     if os.path.isfile(filename):
         os.remove(filename)
+    os.mkdir(filename)
     txtfilenamepath = os.path.join(filename, filename + ".txt")
     with open(txtfilenamepath, "w") as f:
         f.write(":Machine code\n")
 
-def build():
-    return
+# def build():
+#     return
 
 
 
 def main():        
     lîns, filename = read_bnr_file()
     creu(filename)
-    build(lîns, filename)
+    # build(lîns, filename)
 
 main()
 
