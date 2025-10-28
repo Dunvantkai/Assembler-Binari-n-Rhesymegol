@@ -25,16 +25,23 @@ def creu(filename):
         f.write(":Machine code\n")
     return txtfilenamepath
 
-def build(lîns,txtfilenamepath):
+def build(lîns):
     programData = []
     for line in lîns:
-        parts = line.split(":")
-        comment = parts[1].strip() if len(parts) > 1 else ""
-        before_colon = parts[0].strip()
-        number, opcode = before_colon.split(maxsplit=1)
-        operand_number = opcode[:3] 
-        opcode_text = opcode[3:]
+        prats = line.split(":")
+        comment = prats[1].strip() if len(prats) > 1 else ""
+        before_colon = prats[0].strip()
+        number, rest = before_colon.split(maxsplit=1)
+        rest_parts = rest.split(maxsplit=1)
+        operand_number = rest_parts[0]
+        if len(rest_parts) > 1:
+            opcode_text = rest_parts[1]
+        else:
+            opcode_text = operand_number[3:]
+            operand_number = operand_number[:3]
+
         programData.append((number, operand_number, opcode_text, comment))
+
     # print("Number:", number)
     # print("Operand number:", operand_number)
     # print("Opcode text:", opcode_text)
@@ -91,12 +98,14 @@ def compile(programData, txtfilenamepath):
                     try :
                         yplot_int = int(yplot)
                         xplot_int = int(xplot)
+                        if yplot_int > 11 or yplot_int == 0 or xplot_int > 11 or xplot_int == 0:
+                            issue_found[number] = f"Out of Bounds Display address : Y:{yplot}  X:{xplot}"
                         yplot_bin = format(yplot_int, '04b')
                         xplot_bin = format(xplot_int, '04b')
                         B8binary = yplot_bin + xplot_bin
                         f.write(B8binary + ":" + comment + "\n")
                     except ValueError:
-                        issue_found[number] = f"Invalid LOAD Display address : {yplot} {xplot}"
+                        issue_found[number] = f"Invalid Display address : {yplot} {xplot}"
                     address += 1
                     loadAddress = False
                 else:
@@ -112,6 +121,14 @@ def compile(programData, txtfilenamepath):
                     if opcode_text == ("LOAD"):
                         loadAddress = True
                     issue_found = oprand_check(opcode_text, operand_number, issue_found, number)
+                elif operand_number + opcode_text in opcodeDic:
+                    # print(operand_number + opcode_text)
+                    opcode_text = operand_number + opcode_text
+                    if opcode_text in opcodeDic:
+                        opcode = opcodeDic[opcode_text]
+                        operand_number = "000"
+                        if opcode_text == ("LOAD"):
+                            loadAddress = True
                 else:
                     issue_found[number] = f"Unknown opcode: {opcode_text}"
                 f.write(operand_number + opcode + ":" + comment + "\n")
@@ -208,7 +225,7 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
 def main():        
     lîns, filename = read_bnr_file()
     txtfilenamepath = creu(filename)
-    programData = build(lîns, txtfilenamepath)
+    programData = build(lîns)
     issue_found = compile(programData, txtfilenamepath)
     if issue_found:
         print("Issues found during compilation:")
