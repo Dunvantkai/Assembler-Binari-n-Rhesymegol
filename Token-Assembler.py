@@ -260,8 +260,7 @@ def main():
     try:
         lînes = read_file(filename)
         txtfilenamepath = creu(filename)
-
-        programData = build(lînes, txtfilenamepath)
+        programData = build(lînes)
         issue_found = compile(programData, txtfilenamepath)
 
         if issue_found:
