@@ -1,3 +1,3 @@
-0 000LOAD : jdskdska
-1 lwd16 : hello
-2 101MATH : jdskdska
+0 000LOAD : load
+1 lwd17 : 00010001
+2 000PLOT: RENDER
