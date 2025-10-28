@@ -119,6 +119,7 @@ def compile(programData, txtfilenamepath):
             if number == address:
                 if opcode_text in opcodeDic:
                     opcode = opcodeDic[opcode_text]
+                    # print(opcode_text)
                     if opcode_text == ("LOAD"):
                         loadAddress = True
                     issue_found = oprand_check(opcode_text, operand_number, issue_found, number)
@@ -215,13 +216,13 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
     if opcode_text == "IF":
         if operand_number not in IFOPRANDS:
             issue_found[number] = f"Out of Bounds Operand: {operand_number}"
-    if opcode_text == "WRITPOPRANDS":
+    if opcode_text == "WRITP":
         if operand_number not in WRITPOPRANDS:
             issue_found[number] = f"Out of Bounds Operand: {operand_number}"
-    if opcode_text == "SEGOPRANDS":
+    if opcode_text == "SEG":
         if operand_number not in SEGOPRANDS:
             issue_found[number] = f"Out of Bounds Operand: {operand_number}"
-    if opcode_text == "CLSOOPRANDS":
+    if opcode_text == "CLSO":
         if operand_number not in CLSOOPRANDS:
             issue_found[number] = f"Out of Bounds Operand: {operand_number}"
     return issue_found        
