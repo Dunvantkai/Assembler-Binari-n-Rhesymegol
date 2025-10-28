@@ -12,8 +12,7 @@ def read_file(filename: str):
             if lines is not None:
                 return lines
 
-            filename = input("\n[>] Enter filename (.bnr): ")
-
+            filename = input("[>] Enter filename (.bnr): ")
     except KeyboardInterrupt:
         print("\n\n[?] Interrupt: No file provided.")
         raise SystemExit
@@ -23,12 +22,14 @@ def read(filename: str):
         with open(filename, "r") as f:
             return f.readlines()
     except FileNotFoundError:
+        os.system('cls')
         print(f"[?] File '{filename}' not found.")
         return None
     
 def creu(filename: str):
     try:
-        shutil.rmtree(filename)
+        if os.path.exists(filename):
+            shutil.rmtree(filename)
         os.mkdir(filename)
 
         txtfilenamepath = os.path.join(filename, filename + ".txt")
