@@ -2,20 +2,29 @@ import sys
 import os
 import shutil
 
-
-def read(filename: str):   
-    if not filename:
-        filename = input("[>] Enter filename (.bnr): ")
-        filename = filename + ".bnr" if not filename.endswith(".bnr") else filename
-
+def read_file(filename: str):
     try:
-        with open(filename, "r") as f:
-            lines = f.readlines()
-            return filename, lines
-    except FileNotFoundError:
-        print(f"[?] File '{filename}' not found.")
+        while True:  
+            if not filename.endswith(".bnr"):
+                filename += ".bnr"
+
+            lines = read(filename)
+            if lines is not None:
+                return lines
+
+            filename = input("\n[>] Enter filename (.bnr): ")
+    except KeyboardInterrupt:
+        print("\n\n[?] Interrupt: No file provided.")
         raise SystemExit
     
+def read(filename: str):
+    try:
+        with open(filename, "r") as f:
+            return f.readlines()
+    except FileNotFoundError:
+        print(f"[?] File '{filename}' not found.")
+        return None
+
 def creu(filename: str):
     try:
         shutil.rmtree(filename)
@@ -191,8 +200,6 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
     return issue_found        
 
 def main():    
-    filename: str = None
-
     print("=== Binari'n Rhesymegol Token Assembler ===")
     print("-------------------------------------------")
     print()
@@ -202,12 +209,12 @@ def main():
         print("[-] Exiting...")
         return
 
-    if len(sys.argv) == 2:
-        filename = sys.argv[1]
-        filename = filename + ".bnr" if not filename.endswith(".bnr") else filename
+    filename = sys.argv[1] if len(sys.argv) == 2 else None
+    if not filename:
+        filename = input("[>] Enter filename (.bnr): ")
 
     try:
-        lînes = read(filename)
+        lînes = read_file(filename)
         txtfilenamepath = creu(filename)
 
         programData = build(lînes, txtfilenamepath)
