@@ -5,4 +5,5 @@
 00000010:Decodes load on main bus
 00001011:load
 00010011:00010011 display address
+SEG01011:TEST
 11111111:End of Program

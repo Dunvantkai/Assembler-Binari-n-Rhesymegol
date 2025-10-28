@@ -78,6 +78,7 @@ def compile(programData, txtfilenamepath):
         "CLSP" : "11110",
         "HALT" : "11111"
     }
+    withOperandsDic = ["LOGIC", "MATH", "RAND", "SAVJ", "IF", "WRITP", "SEG", "CLSO"]
     with open(txtfilenamepath, "w") as f:
         for data in programData: 
             number, operand_number, opcode_text, comment = data
@@ -125,10 +126,13 @@ def compile(programData, txtfilenamepath):
                     # print(operand_number + opcode_text)
                     opcode_text = operand_number + opcode_text
                     if opcode_text in opcodeDic:
-                        opcode = opcodeDic[opcode_text]
-                        operand_number = "000"
-                        if opcode_text == ("LOAD"):
-                            loadAddress = True
+                        if opcode_text not in withOperandsDic:
+                            opcode = opcodeDic[opcode_text]
+                            operand_number = "000"
+                            if opcode_text == ("LOAD"):
+                                loadAddress = True
+                        else:
+                            issue_found[number] = f"Opcode given with no Operand: {opcode_text}"
                 else:
                     issue_found[number] = f"Unknown opcode: {opcode_text}"
                 f.write(operand_number + opcode + ":" + comment + "\n")

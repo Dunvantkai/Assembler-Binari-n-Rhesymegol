@@ -5,3 +5,4 @@
 4 LWD 2 :  Decodes load on main bus
 5 000LOAD : load
 6 PLT 1 3: 00010011 display address
+7 SEG :TEST

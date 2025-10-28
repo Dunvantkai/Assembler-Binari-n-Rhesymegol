@@ -1,52 +1,47 @@
-import sys
 import os
 import shutil
 
-def read_file(filename: str):
-    try:
-        while True:  
-            if not filename.endswith(".bnr"):
-                filename += ".bnr"
+def read_bnr_file():
+    while True:
+        filename = input("Enter the filename: ")
+        fullfilename = filename+".BNR"
+        try:
+            with open(fullfilename, "r") as f:
+                lines = f.readlines()
+                return lines, filename
+        except FileNotFoundError:
+            print("File not found. Please check the filename and try again.")
+            input("Press Enter to continue...")
+            os.system('cls')
 
-            lines = read(filename)
-            if lines is not None:
-                return lines
-
-            filename = input("\n[>] Enter filename (.bnr): ")
-    except KeyboardInterrupt:
-        print("\n\n[?] Interrupt: No file provided.")
-        raise SystemExit
-    
-def read(filename: str):
-    try:
-        with open(filename, "r") as f:
-            return f.readlines()
-    except FileNotFoundError:
-        print(f"[?] File '{filename}' not found.")
-        return None
-
-def creu(filename: str):
+def creu(filename):
     try:
         shutil.rmtree(filename)
-        os.mkdir(filename)
-        txtfilenamepath = os.path.join(filename, filename + ".txt")
-        with open(txtfilenamepath, "w") as f:
-            f.write(":Machine code\n")
-        return txtfilenamepath
     except OSError as e:
-        print("[?] Error deleting folder or no folder found")
-        raise SystemExit
+        print("Error deleting folder or no folder found")
+    os.mkdir(filename)
+    txtfilenamepath = os.path.join(filename, filename + ".txt")
+    with open(txtfilenamepath, "w") as f:
+        f.write(":Machine code\n")
+    return txtfilenamepath
 
-def build(lîns,txtfilenamepath):
+def build(lîns):
     programData = []
     for line in lîns:
-        parts = line.split(":")
-        comment = parts[1].strip() if len(parts) > 1 else ""
-        before_colon = parts[0].strip()
-        number, opcode = before_colon.split(maxsplit=1)
-        operand_number = opcode[:3] 
-        opcode_text = opcode[3:]
+        prats = line.split(":")
+        comment = prats[1].strip() if len(prats) > 1 else ""
+        before_colon = prats[0].strip()
+        number, rest = before_colon.split(maxsplit=1)
+        rest_parts = rest.split(maxsplit=1)
+        operand_number = rest_parts[0]
+        if len(rest_parts) > 1:
+            opcode_text = rest_parts[1]
+        else:
+            opcode_text = operand_number[3:]
+            operand_number = operand_number[:3]
+
         programData.append((number, operand_number, opcode_text, comment))
+
     # print("Number:", number)
     # print("Operand number:", operand_number)
     # print("Opcode text:", opcode_text)
@@ -83,20 +78,41 @@ def compile(programData, txtfilenamepath):
         "CLSP" : "11110",
         "HALT" : "11111"
     }
+    withOperandsDic = ["LOGIC", "MATH", "RAND", "SAVJ", "IF", "WRITP", "SEG", "CLSO"]
     with open(txtfilenamepath, "w") as f:
         for data in programData: 
             number, operand_number, opcode_text, comment = data
             number = int(number)
             if loadAddress == True:
-                B8binary = opcode_text
-                try :
-                    B8binary = int(B8binary)
-                    B8binary = format(B8binary, '08b')
-                    f.write(B8binary + ":" + comment + "\n")
-                except ValueError:
-                    issue_found[number] = f"Invalid LOAD address : {B8binary}"
-                address += 1
-                loadAddress = False
+                if operand_number == "LWD":
+                    B8binary = opcode_text
+                    try :
+                        B8binary = int(B8binary)
+                        B8binary = format(B8binary, '08b')
+                        f.write(B8binary + ":" + comment + "\n")
+                    except ValueError:
+                        issue_found[number] = f"Invalid LOAD address : {B8binary}"
+                    address += 1
+                    loadAddress = False
+                elif operand_number == "PLT":
+                    yplot, xplot = opcode_text.split()
+                    try :
+                        yplot_int = int(yplot)
+                        xplot_int = int(xplot)
+                        if yplot_int > 11 or yplot_int == 0 or xplot_int > 11 or xplot_int == 0:
+                            issue_found[number] = f"Out of Bounds Display address : Y:{yplot}  X:{xplot}"
+                        yplot_bin = format(yplot_int, '04b')
+                        xplot_bin = format(xplot_int, '04b')
+                        B8binary = yplot_bin + xplot_bin
+                        f.write(B8binary + ":" + comment + "\n")
+                    except ValueError:
+                        issue_found[number] = f"Invalid Display address : {yplot} {xplot}"
+                    address += 1
+                    loadAddress = False
+                else:
+                    issue_found[number] = f"Invalid LOAD TYPE : {operand_number}"
+                    address += 1
+                    loadAddress = False
             while address < number:
                 f.write("11111111\n")
                 address += 1
@@ -106,11 +122,22 @@ def compile(programData, txtfilenamepath):
                     if opcode_text == ("LOAD"):
                         loadAddress = True
                     issue_found = oprand_check(opcode_text, operand_number, issue_found, number)
+                elif operand_number + opcode_text in opcodeDic:
+                    # print(operand_number + opcode_text)
+                    opcode_text = operand_number + opcode_text
+                    if opcode_text in opcodeDic:
+                        if opcode_text not in withOperandsDic:
+                            opcode = opcodeDic[opcode_text]
+                            operand_number = "000"
+                            if opcode_text == ("LOAD"):
+                                loadAddress = True
+                        else:
+                            issue_found[number] = f"Opcode given with no Operand: {opcode_text}"
                 else:
                     issue_found[number] = f"Unknown opcode: {opcode_text}"
                 f.write(operand_number + opcode + ":" + comment + "\n")
                 address += 1
-        # f.write("11111111\n")           
+        f.write("11111111:End of Program\n")       
     return issue_found  
                 
 def oprand_check(opcode_text, operand_number, issue_found, number):
@@ -199,38 +226,19 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
             issue_found[number] = f"Out of Bounds Operand: {operand_number}"
     return issue_found        
 
-def main():    
-    print("=== Binari'n Rhesymegol Token Assembler ===")
-    print("-------------------------------------------")
-    print()
-
-    if len(sys.argv) > 2:
-        print("[?] Usage: Token-Assembler <filename [OPTIONAL]>")
-        print("[-] Exiting...")
-        return
-
-    filename = sys.argv[1] if len(sys.argv) == 2 else None
-    if not filename:
-        filename = input("[>] Enter filename (.bnr): ")
-
-    try:
-        lînes = read_file(filename)
-        txtfilenamepath = creu(filename)
-
-        programData = build(lînes, txtfilenamepath)
-        issue_found = compile(programData, txtfilenamepath)
-        if issue_found:
-            print("Issues found during compilation:")
-            for line, issue in issue_found.items():
-                print(f"Line {line}: {issue}")
-        else:
-            print("Compilation successful with no issues.")
-    except SystemExit:
-        print("[-] Exiting...")
-        return
+def main():        
+    lîns, filename = read_bnr_file()
+    txtfilenamepath = creu(filename)
+    programData = build(lîns)
+    issue_found = compile(programData, txtfilenamepath)
+    if issue_found:
+        print("Issues found during compilation:")
+        for line, issue in issue_found.items():
+            print(f"Line {line}: {issue}")
+    else:
+        print("Compilation successful with no issues.")
     
-if __name__ == "__main__":
-    print()
+while True:
     main()
-    print()
-
+    input("Press Enter to continue...")
+    os.system('cls')
