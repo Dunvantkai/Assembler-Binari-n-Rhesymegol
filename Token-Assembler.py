@@ -89,13 +89,17 @@ def compile(programData, txtfilenamepath):
                 if operand_number == "PLT":
                     yplot, xplot = opcode_text.split()
                     try :
-                        B8binary = int(B8binary)
-                        B8binary = format(B8binary, '08b')
+                        yplot_int = int(yplot)
+                        xplot_int = int(xplot)
+                        yplot_bin = format(yplot_int, '04b')
+                        xplot_bin = format(xplot_int, '04b')
+                        B8binary = yplot_bin + xplot_bin
                         f.write(B8binary + ":" + comment + "\n")
                     except ValueError:
                         issue_found[number] = f"Invalid LOAD address : {B8binary}"
                     address += 1
                     loadAddress = False
+
             while address < number:
                 f.write("11111111\n")
                 address += 1
@@ -109,7 +113,7 @@ def compile(programData, txtfilenamepath):
                     issue_found[number] = f"Unknown opcode: {opcode_text}"
                 f.write(operand_number + opcode + ":" + comment + "\n")
                 address += 1
-            f.write("11111111\n")           
+            # f.write("11111111\n")           
     return issue_found  
                 
 def oprand_check(opcode_text, operand_number, issue_found, number):
