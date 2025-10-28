@@ -76,15 +76,26 @@ def compile(programData, txtfilenamepath):
             number, operand_number, opcode_text, comment = data
             number = int(number)
             if loadAddress == True:
-                B8binary = opcode_text
-                try :
-                    B8binary = int(B8binary)
-                    B8binary = format(B8binary, '08b')
-                    f.write(B8binary + ":" + comment + "\n")
-                except ValueError:
-                    issue_found[number] = f"Invalid LOAD address : {B8binary}"
-                address += 1
-                loadAddress = False
+                if operand_number == "LWD":
+                    B8binary = opcode_text
+                    try :
+                        B8binary = int(B8binary)
+                        B8binary = format(B8binary, '08b')
+                        f.write(B8binary + ":" + comment + "\n")
+                    except ValueError:
+                        issue_found[number] = f"Invalid LOAD address : {B8binary}"
+                    address += 1
+                    loadAddress = False
+                if operand_number == "PLT":
+                    yplot, xplot = opcode_text.split()
+                    try :
+                        B8binary = int(B8binary)
+                        B8binary = format(B8binary, '08b')
+                        f.write(B8binary + ":" + comment + "\n")
+                    except ValueError:
+                        issue_found[number] = f"Invalid LOAD address : {B8binary}"
+                    address += 1
+                    loadAddress = False
             while address < number:
                 f.write("11111111\n")
                 address += 1
@@ -203,4 +214,3 @@ while True:
     main()
     input("Press Enter to continue...")
     os.system('cls')
-
