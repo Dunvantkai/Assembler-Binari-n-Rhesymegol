@@ -1,1 +1,1 @@
-pyinstaller --onefile --icon=Redstone_Dust.ico Token-Assembler.py
+pyinstaller --onefile --icon=Redstone_Dust.ico Assembler.py
