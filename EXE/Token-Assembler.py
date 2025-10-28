@@ -25,7 +25,7 @@ def read(filename: str):
     except FileNotFoundError:
         print(f"[?] File '{filename}' not found.")
         return None
-
+    
 def creu(filename: str):
     try:
         shutil.rmtree(filename)

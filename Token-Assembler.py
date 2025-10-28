@@ -1,29 +1,44 @@
+import sys
 import os
 import shutil
 
-def read_bnr_file():
-    while True:
-        filename = input("Enter the filename: ")
-        fullfilename = filename+".BNR"
-        try:
-            with open(fullfilename, "r") as f:
-                lines = f.readlines()
-                return lines, filename
-        except FileNotFoundError:
-            print("File not found. Please check the filename and try again.")
-            input("Press Enter to continue...")
-            os.system('cls')
+def read_file(filename: str):
+    try:
+        while True:  
+            if not filename.endswith(".bnr"):
+                filename += ".bnr"
 
-def creu(filename):
+            lines = read(filename)
+            if lines is not None:
+                return lines
+
+            filename = input("\n[>] Enter filename (.bnr): ")
+
+    except KeyboardInterrupt:
+        print("\n\n[?] Interrupt: No file provided.")
+        raise SystemExit
+
+def read(filename: str):
+    try:
+        with open(filename, "r") as f:
+            return f.readlines()
+    except FileNotFoundError:
+        print(f"[?] File '{filename}' not found.")
+        return None
+    
+def creu(filename: str):
     try:
         shutil.rmtree(filename)
-    except OSError as e:
-        print("Error deleting folder or no folder found")
-    os.mkdir(filename)
-    txtfilenamepath = os.path.join(filename, filename + ".txt")
-    with open(txtfilenamepath, "w") as f:
-        f.write(":Machine code\n")
-    return txtfilenamepath
+        os.mkdir(filename)
+
+        txtfilenamepath = os.path.join(filename, filename + ".txt")
+        with open(txtfilenamepath, "w") as f:
+            f.write(":Machine code\n")
+
+        return txtfilenamepath
+    except OSError:
+        print("\n[?] Error deleting folder or no folder found")
+        raise SystemExit
 
 def build(lîns):
     programData = []
@@ -227,19 +242,38 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
             issue_found[number] = f"Out of Bounds Operand: {operand_number}"
     return issue_found        
 
-def main():        
-    lîns, filename = read_bnr_file()
-    txtfilenamepath = creu(filename)
-    programData = build(lîns)
-    issue_found = compile(programData, txtfilenamepath)
-    if issue_found:
-        print("Issues found during compilation:")
-        for line, issue in issue_found.items():
-            print(f"Line {line}: {issue}")
-    else:
-        print("Compilation successful with no issues.")
+def main():    
+    print("=== Binari'n Rhesymegol Token Assembler ===")
+    print("-------------------------------------------")
+    print()
+
+    if len(sys.argv) > 2:
+        print("[?] Usage: Token-Assembler <filename [OPTIONAL]>")
+        print("[-] Exiting...")
+        return
+
+    filename = sys.argv[1] if len(sys.argv) == 2 else None
+    if not filename:
+        filename = input("[>] Enter filename (.bnr): ")
+
+    try:
+        lînes = read_file(filename)
+        txtfilenamepath = creu(filename)
+
+        programData = build(lînes, txtfilenamepath)
+        issue_found = compile(programData, txtfilenamepath)
+
+        if issue_found:
+            print("Issues found during compilation:")
+            for line, issue in issue_found.items():
+                print(f"Line {line}: {issue}")
+        else:
+            print("Compilation successful with no issues.")
+    except SystemExit:
+        print("[-] Exiting...")
+        return
     
-while True:
+if __name__ == "__main__":
+    print()
     main()
-    input("Press Enter to continue...")
-    os.system('cls')
+    print()
