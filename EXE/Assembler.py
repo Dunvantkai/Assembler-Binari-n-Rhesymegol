@@ -44,9 +44,9 @@ def creu(filename: str):
 def build(lîns):
     programData = []
     for line in lîns:
-        prats = line.split(":")
-        comment = prats[1].strip() if len(prats) > 1 else ""
-        before_colon = prats[0].strip()
+        parts = line.split(":")
+        comment = parts[1].strip() if len(parts) > 1 else ""
+        before_colon = parts[0].strip()
         number, rest = before_colon.split(maxsplit=1)
         rest_parts = rest.split(maxsplit=1)
         operand_number = rest_parts[0]
