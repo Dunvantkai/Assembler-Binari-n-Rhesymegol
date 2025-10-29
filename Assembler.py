@@ -158,7 +158,6 @@ def compile(programData, txtfilenamepath):
     return issue_found  
                 
 def oprand_check(opcode_text, operand_number, issue_found, number):
-
     LOGICOPRANDS = {
         "001" : "AND",
         "010" : "NAND",
@@ -217,30 +216,19 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
         "011" : "SCR-3",
         "100" : "SCR-ALL"
     }
-    if opcode_text == "LOGIC":
-        if operand_number not in LOGICOPRANDS:
-            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
-    if opcode_text == "MATH":
-        if operand_number not in MATHOPRANDS:
-            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
-    if opcode_text == "RAND":
-        if operand_number not in RANDOPRANDS:
-            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
-    if opcode_text == "SAVJ":
-        if operand_number not in SAVJOPRANDS:
-            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
-    if opcode_text == "IF":
-        if operand_number not in IFOPRANDS:
-            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
-    if opcode_text == "WRITP":
-        if operand_number not in WRITPOPRANDS:
-            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
-    if opcode_text == "SEG":
-        if operand_number not in SEGOPRANDS:
-            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
-    if opcode_text == "CLSO":
-        if operand_number not in CLSOOPRANDS:
-            issue_found[number] = f"Out of Bounds Operand: {operand_number}"
+    operandDic = {
+        "LOGIC": LOGICOPRANDS,
+        "MATH": MATHOPRANDS,
+        "RAND": RANDOPRANDS,
+        "SAVJ": SAVJOPRANDS,
+        "IF": IFOPRANDS,
+        "WRITP": WRITPOPRANDS,
+        "SEG": SEGOPRANDS,
+        "CLSO": CLSOOPRANDS
+    }
+    
+    if operand_number not in operandDic.get(opcode_text, {}) and operand_number != "000":
+        issue_found[number] = f"Out of Bounds Operand: {operand_number}"
     return issue_found        
 
 def main():    

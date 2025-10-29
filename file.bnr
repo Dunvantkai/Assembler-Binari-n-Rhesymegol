@@ -6,3 +6,4 @@
 5 LOAD     : load
 6 PLT 1 3  : 00010011 display address
 7 000WRITL : WRITE NUMBER TO DRIVE 0
+8 MATH
