@@ -1,9 +1,0 @@
-0 LOAD     : load
-1 PLT 1 11 : display address
-2 PLOT     : RENDER Plots a pixel
-3 LOAD     : load 
-4 LWD 2    : Decodes load on main bus
-5 LOAD     : load
-6 PLT 1 3  : 00010011 display address
-7 000WRITL : WRITE NUMBER TO DRIVE 0
-8 MATH
