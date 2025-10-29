@@ -257,6 +257,9 @@ def main():
                 print(f"Line {line}: {issue}")
         else:
             print("Compilation successful with no issues.")
+        
+        input("\n[>] Press any key to exit...")
+        raise SystemExit
     except SystemExit:
         print("[-] Exiting...")
         return
