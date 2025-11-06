@@ -259,11 +259,11 @@ def main():
         print("[-] Exiting...")
         return
 
-    filename = sys.argv[1] if len(sys.argv) == 2 else None
-    if not filename:
-        filename = input("[>] Enter filename (.bnr): ")
-
     try:
+        filename = sys.argv[1] if len(sys.argv) == 2 else None
+        if not filename:
+            filename = input("[>] Enter filename (.bnr): ")
+
         lînes = read_file(filename)
         txtfilenamepath = creu(filename)
         programData = build(lînes)
@@ -275,11 +275,17 @@ def main():
                 print(f"Line {line}: {issue}")
         else:
             print("Compilation successful with no issues.")
+    except KeyboardInterrupt:
+        print("\n[-] Process interrupted by user.")
     except Exception as e:
         print("\n[-] Fatal Error:", str(e))
     finally:
-        input("[>] Press any key to exit...")
-        print("\n[-] Exiting...")
+        step = input("\n[>] Press 'r' to run again or any other key to exit: ")
+        if (step.lower() == 'r'):
+            os.system('cls')
+            main()
+    
+        print("[-] Exiting...")
 
 
 if __name__ == "__main__":
