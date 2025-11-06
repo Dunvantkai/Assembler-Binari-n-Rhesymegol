@@ -90,6 +90,7 @@ def compile(programData, txtfilenamepath):
         "SAVZ" : "10010",
         "MEM" : "10011",
         "CLSOU" : "11000",
+        "CLSZ" : "11001",
         "CLSAL" : "11010",
         "CLSA" : "11011",
         "CLSB" : "11100",
