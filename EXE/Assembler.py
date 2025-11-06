@@ -87,6 +87,9 @@ def compile(programData, txtfilenamepath):
         "WRITP" : "01111",
         "SEG" : "10000",
         "PLOT" : "10001",
+        "SAVZ" : "10010",
+        "MEM" : "10011",
+        "CLSOU" : "11000",
         "CLSAL" : "11010",
         "CLSA" : "11011",
         "CLSB" : "11100",
@@ -94,7 +97,7 @@ def compile(programData, txtfilenamepath):
         "CLSP" : "11110",
         "HALT" : "11111"
     }
-    withOperandsDic = ["LOGIC", "MATH", "RAND", "SAVJ", "IF", "WRITP", "SEG", "CLSO"]
+    withOperandsDic = ["LOGIC", "MATH", "RAND", "SAVJ", "IF", "WRITP", "SEG", "MEM", "CLSOU", "CLSO"]
     with open(txtfilenamepath, "w") as f:
         for data in programData: 
             number, operand_number, opcode_text, comment = data
@@ -192,7 +195,8 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
         "001" : "NONE",
         "010" : "==",
         "011" : ">>",
-        "100" : "<<"
+        "100" : "<<",
+        "101" : "!=="
     }
     WRITPOPRANDS = {
         "001" : "Button 1",
@@ -210,6 +214,16 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
         "100" : "Button 8",
         "101" : "Button 9"
     }
+    MEMRANS = {
+        "001" : "RAM",
+        "010" : "USERINPUT",
+        "011" : "BŴTIN",
+    }
+    CLSOURANDS = {
+        "001" : "RAM",
+        "010" : "USERINPUT",
+        "011" : "BŴTIN",
+    }
     CLSOOPRANDS = {
         "001" : "SCR-1",
         "010" : "SCR-2",
@@ -224,16 +238,18 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
         "IF": IFOPRANDS,
         "WRITP": WRITPOPRANDS,
         "SEG": SEGOPRANDS,
+        "MEM": MEMRANS,
+        "CLSOU": CLSOURANDS,
         "CLSO": CLSOOPRANDS
     }
-    
-    if operand_number not in operandDic.get(opcode_text, {}) and operand_number != "000":
+    #  and operand_number != "000"
+    if operand_number not in operandDic.get(opcode_text, {}):
         issue_found[number] = f"Out of Bounds Operand: {operand_number}"
     return issue_found        
 
 def main():    
-    print("=== Binari'n Rhesymegol Token Assembler ===")
-    print("-------------------------------------------")
+    print("=== Binari'n Rhesymegol Token Assembler v3.0 ===")
+    print("------------------------------------------------")
     print()
 
     if len(sys.argv) > 2:
