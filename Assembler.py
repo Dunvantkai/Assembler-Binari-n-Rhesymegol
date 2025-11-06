@@ -284,6 +284,7 @@ def main():
         if (step.lower() == 'r'):
             os.system('cls')
             main()
+            return
     
         print("[-] Exiting...")
 
