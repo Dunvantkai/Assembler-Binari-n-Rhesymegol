@@ -2,6 +2,9 @@ import sys
 import os
 import shutil
 
+def preprocess():
+    os.chdir(os.path.dirname(os.path.abspath(sys.argv[0])))
+
 def read_file(filename: str):
     try:
         while True:  
@@ -14,8 +17,7 @@ def read_file(filename: str):
 
             filename = input("[>] Enter filename (.bnr): ")
     except KeyboardInterrupt:
-        print("\n\n[?] Interrupt: No file provided.")
-        raise SystemExit
+        raise Exception("No file provided.")
 
 def read(filename: str):
     try:
@@ -38,8 +40,7 @@ def creu(filename: str):
 
         return txtfilenamepath
     except OSError:
-        print("\n[?] Error deleting folder or no folder found")
-        raise SystemExit
+        raise Exception("Failed to create output directory.")
 
 def build(lîns):
     programData = []
@@ -269,19 +270,20 @@ def main():
         issue_found = compile(programData, txtfilenamepath)
 
         if issue_found:
-            print("Issues found during compilation:")
+            print("\nIssues found during compilation:")
             for line, issue in issue_found.items():
                 print(f"Line {line}: {issue}")
         else:
             print("Compilation successful with no issues.")
-        
-        input("\n[>] Press any key to exit...")
-        raise SystemExit
-    except SystemExit:
-        print("[-] Exiting...")
-        return
-    
+    except Exception as e:
+        print("\n[-] Fatal Error:", str(e))
+    finally:
+        input("[>] Press any key to exit...")
+        print("\n[-] Exiting...")
+
+
 if __name__ == "__main__":
     print()
+    preprocess()
     main()
     print()

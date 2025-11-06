@@ -1,0 +1,10 @@
+00001011:load
+00011011:display address
+00010001:RENDER Plots a pixel
+00001011:load
+00000010:Decodes load on main bus
+00001011:load
+00010011:00010011 display address
+00000011:WRITE NUMBER TO DRIVE 0
+MAT00011:
+11111111:End of Program
