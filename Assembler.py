@@ -89,6 +89,7 @@ def compile(programData, txtfilenamepath):
         "PLOT" : "10001",
         "SAVZ" : "10010",
         "MEM" : "10011",
+        "CLSOU" : "11000",
         "CLSAL" : "11010",
         "CLSA" : "11011",
         "CLSB" : "11100",
@@ -96,7 +97,7 @@ def compile(programData, txtfilenamepath):
         "CLSP" : "11110",
         "HALT" : "11111"
     }
-    withOperandsDic = ["LOGIC", "MATH", "RAND", "SAVJ", "IF", "WRITP", "SEG", "CLSO"]
+    withOperandsDic = ["LOGIC", "MATH", "RAND", "SAVJ", "IF", "WRITP", "SEG", "MEM", "CLSOU", "CLSO"]
     with open(txtfilenamepath, "w") as f:
         for data in programData: 
             number, operand_number, opcode_text, comment = data
