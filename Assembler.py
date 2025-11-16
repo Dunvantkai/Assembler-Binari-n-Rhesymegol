@@ -99,7 +99,7 @@ def compile(programData, txtfilenamepath):
         "CLSP" : "11110",
         "HALT" : "11111"
     }
-    withOperandsDic = ["LOGIC", "MATH", "RAND", "SAVJ", "IF", "WRITP", "SEG", "MEM", "CLSOU", "CLSO"]
+    withOperandsDic = ["LOGIC", "MATH", "RAND", "SAVJ", "IF", "WRITL", "WRITH", "READL", "READH", "WRITP", "SEG", "MEM", "CLSOU", "CLSO"]
     with open(txtfilenamepath, "w") as f:
         for data in programData: 
             number, operand_number, opcode_text, comment = data
@@ -238,6 +238,19 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
         "010" : "DRIVE 2",
         "011" : "DRIVE 3",
         "100" : "DRIVE 4",
+        "101" : "DRIVE 5",
+        "110" : "DRIVE 6",
+        "111" : "DRIVE 7"
+        }
+    WRIGHTRANDS = {
+        "000" : "DRIVE 0",
+        "001" : "DRIVE 1",
+        "010" : "DRIVE 2",
+        "011" : "DRIVE 3",
+        "100" : "DRIVE 4",
+        "101" : "DRIVE 5",
+        "110" : "DRIVE 6",
+        "111" : "DRIVE 7"
         }
     operandDic = {
         "LOGIC": LOGICOPRANDS,
@@ -250,7 +263,10 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
         "MEM": MEMRANS,
         "CLSOU": CLSOURANDS,
         "CLSO": CLSOOPRANDS,
-        "READL": 
+        "READL": READRANDS,
+        "READH": READRANDS,
+        "WRITL": WRIGHTRANDS,
+        "WRITH": WRIGHTRANDS
     }
     #  and operand_number != "000"
     if operand_number not in operandDic.get(opcode_text, {}):

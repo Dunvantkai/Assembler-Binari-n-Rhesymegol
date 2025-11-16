@@ -2,6 +2,9 @@ import sys
 import os
 import shutil
 
+def preprocess():
+    os.chdir(os.path.dirname(os.path.abspath(sys.argv[0])))
+
 def read_file(filename: str):
     try:
         while True:  
@@ -14,8 +17,7 @@ def read_file(filename: str):
 
             filename = input("[>] Enter filename (.bnr): ")
     except KeyboardInterrupt:
-        print("\n\n[?] Interrupt: No file provided.")
-        raise SystemExit
+        raise Exception("No file provided.")
 
 def read(filename: str):
     try:
@@ -38,8 +40,7 @@ def creu(filename: str):
 
         return txtfilenamepath
     except OSError:
-        print("\n[?] Error deleting folder or no folder found")
-        raise SystemExit
+        raise Exception("Failed to create output directory.")
 
 def build(lîns):
     programData = []
@@ -98,7 +99,7 @@ def compile(programData, txtfilenamepath):
         "CLSP" : "11110",
         "HALT" : "11111"
     }
-    withOperandsDic = ["LOGIC", "MATH", "RAND", "SAVJ", "IF", "WRITP", "SEG", "MEM", "CLSOU", "CLSO"]
+    withOperandsDic = ["LOGIC", "MATH", "RAND", "SAVJ", "IF", "WRITL", "WRITH", "READL", "READH", "WRITP", "SEG", "MEM", "CLSOU", "CLSO"]
     with open(txtfilenamepath, "w") as f:
         for data in programData: 
             number, operand_number, opcode_text, comment = data
@@ -231,6 +232,26 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
         "011" : "SCR-3",
         "100" : "SCR-ALL"
     }
+    READRANDS = {
+        "000" : "DRIVE 0",
+        "001" : "DRIVE 1",
+        "010" : "DRIVE 2",
+        "011" : "DRIVE 3",
+        "100" : "DRIVE 4",
+        "101" : "DRIVE 5",
+        "110" : "DRIVE 6",
+        "111" : "DRIVE 7"
+        }
+    WRIGHTRANDS = {
+        "000" : "DRIVE 0",
+        "001" : "DRIVE 1",
+        "010" : "DRIVE 2",
+        "011" : "DRIVE 3",
+        "100" : "DRIVE 4",
+        "101" : "DRIVE 5",
+        "110" : "DRIVE 6",
+        "111" : "DRIVE 7"
+        }
     operandDic = {
         "LOGIC": LOGICOPRANDS,
         "MATH": MATHOPRANDS,
@@ -241,7 +262,11 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
         "SEG": SEGOPRANDS,
         "MEM": MEMRANS,
         "CLSOU": CLSOURANDS,
-        "CLSO": CLSOOPRANDS
+        "CLSO": CLSOOPRANDS,
+        "READL": READRANDS,
+        "READH": READRANDS,
+        "WRITL": WRIGHTRANDS,
+        "WRITH": WRIGHTRANDS
     }
     #  and operand_number != "000"
     if operand_number not in operandDic.get(opcode_text, {}):
@@ -258,30 +283,38 @@ def main():
         print("[-] Exiting...")
         return
 
-    filename = sys.argv[1] if len(sys.argv) == 2 else None
-    if not filename:
-        filename = input("[>] Enter filename (.bnr): ")
-
     try:
+        filename = sys.argv[1] if len(sys.argv) == 2 else None
+        if not filename:
+            filename = input("[>] Enter filename (.bnr): ")
+
         lînes = read_file(filename)
         txtfilenamepath = creu(filename)
         programData = build(lînes)
         issue_found = compile(programData, txtfilenamepath)
 
         if issue_found:
-            print("Issues found during compilation:")
+            print("\nIssues found during compilation:")
             for line, issue in issue_found.items():
                 print(f"Line {line}: {issue}")
         else:
             print("Compilation successful with no issues.")
-        
-        input("\n[>] Press any key to exit...")
-        raise SystemExit
-    except SystemExit:
-        print("[-] Exiting...")
-        return
+    except KeyboardInterrupt:
+        print("\n[-] Process interrupted by user.")
+    except Exception as e:
+        print("\n[-] Fatal Error:", str(e))
+    finally:
+        step = input("\n[>] Press 'r' to run again or any other key to exit: ")
+        if (step.lower() == 'r'):
+            os.system('cls')
+            main()
+            return
     
+        print("[-] Exiting...")
+
+
 if __name__ == "__main__":
     print()
+    preprocess()
     main()
     print()
