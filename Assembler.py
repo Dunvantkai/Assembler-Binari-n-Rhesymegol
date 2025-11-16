@@ -190,8 +190,10 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
         "111" : "8-bit" 
     }
     SAVJOPRANDS = {
-        "001" : "LOW",
-        "010" : "HIGH"
+        "001" : "LOWLOW",
+        "010" : "LOWHIGH",
+        "011" : "HIGHLOW",
+        "100" : "HIGHHIGH"
     }
     IFOPRANDS = {
         "001" : "NONE",
