@@ -232,6 +232,13 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
         "011" : "SCR-3",
         "100" : "SCR-ALL"
     }
+    READRANDS = {
+        "000" : "DRIVE 0",
+        "001" : "DRIVE 1",
+        "010" : "DRIVE 2",
+        "011" : "DRIVE 3",
+        "100" : "DRIVE 4",
+        }
     operandDic = {
         "LOGIC": LOGICOPRANDS,
         "MATH": MATHOPRANDS,
@@ -242,7 +249,8 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
         "SEG": SEGOPRANDS,
         "MEM": MEMRANS,
         "CLSOU": CLSOURANDS,
-        "CLSO": CLSOOPRANDS
+        "CLSO": CLSOOPRANDS,
+        "READL": 
     }
     #  and operand_number != "000"
     if operand_number not in operandDic.get(opcode_text, {}):
