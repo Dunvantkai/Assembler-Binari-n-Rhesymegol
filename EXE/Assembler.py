@@ -106,9 +106,11 @@ def compile(programData, txtfilenamepath):
             number = int(number)
             if loadAddress == True:
                 if operand_number == "LWD":
+                    opcode_text = lwd_check(opcode_text)
                     B8binary = opcode_text
                     try :
                         B8binary = int(B8binary)
+                        # print(B8binary)
                         B8binary = format(B8binary, '08b')
                         f.write(B8binary + ":" + comment + "\n")
                     except ValueError:
@@ -161,7 +163,19 @@ def compile(programData, txtfilenamepath):
                 address += 1
         f.write("11111111:End of Program\n")       
     return issue_found  
-                
+def lwd_check(lwdnum):
+    lwdnum = int(lwdnum)
+    if lwdnum > 255: 
+        lwdnum=lwdnum - 255
+        if lwdnum > 255:
+            lwdnum=lwdnum - 255
+            if lwdnum > 255:
+                lwdnum=lwdnum - 255
+                    #most sh!t code here but like it works lol
+    # print(lwdnum)                    
+    lwdnum = str(lwdnum)
+    return lwdnum
+
 def oprand_check(opcode_text, operand_number, issue_found, number):
     LOGICOPRANDS = {
         "001" : "AND",
@@ -190,8 +204,10 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
         "111" : "8-bit" 
     }
     SAVJOPRANDS = {
-        "001" : "LOW",
-        "010" : "HIGH"
+        "001" : "LOWLOW",
+        "010" : "LOWHIGH",
+        "011" : "HIGHLOW",
+        "100" : "HIGHHIGH"
     }
     IFOPRANDS = {
         "001" : "NONE",
