@@ -290,7 +290,7 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
     return issue_found        
 
 def main():    
-    print("=== Binari'n Rhesymegol Token Assembler v3.0 ===")
+    print("=== Binari'n Rhesymegol Token Assembler v3.3 ===")
     print("------------------------------------------------")
     print()
 
