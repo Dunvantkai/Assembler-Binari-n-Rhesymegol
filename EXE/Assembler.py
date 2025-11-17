@@ -166,11 +166,11 @@ def compile(programData, txtfilenamepath):
 def lwd_check(lwdnum):
     lwdnum = int(lwdnum)
     if lwdnum > 255: 
-        lwdnum=lwdnum - 255
+        lwdnum=lwdnum - 256
         if lwdnum > 255:
-            lwdnum=lwdnum - 255
+            lwdnum=lwdnum - 256
             if lwdnum > 255:
-                lwdnum=lwdnum - 255
+                lwdnum=lwdnum - 256
                     #most sh!t code here but like it works lol
     # print(lwdnum)                    
     lwdnum = str(lwdnum)

@@ -486,7 +486,7 @@ setblock ~0 ~-6 ~122 minecraft:repeater[facing=west]
 setblock ~0 ~-8 ~122 minecraft:glass 
 setblock ~0 ~-10 ~122 minecraft:glass 
 setblock ~0 ~-12 ~122 minecraft:repeater[facing=west] 
-setblock ~0 ~-14 ~122 minecraft:repeater[facing=west] 
+setblock ~0 ~-14 ~122 minecraft:glass 
 setblock ~0 ~0 ~124 minecraft:glass 
 setblock ~0 ~-2 ~124 minecraft:repeater[facing=west] 
 setblock ~0 ~-4 ~124 minecraft:glass 
@@ -542,7 +542,7 @@ setblock ~-7 ~-6 ~8 minecraft:repeater[facing=west]
 setblock ~-7 ~-8 ~8 minecraft:glass 
 setblock ~-7 ~-10 ~8 minecraft:repeater[facing=west] 
 setblock ~-7 ~-12 ~8 minecraft:repeater[facing=west] 
-setblock ~-7 ~-14 ~8 minecraft:repeater[facing=west] 
+setblock ~-7 ~-14 ~8 minecraft:glass 
 setblock ~-7 ~0 ~10 minecraft:glass 
 setblock ~-7 ~-2 ~10 minecraft:repeater[facing=west] 
 setblock ~-7 ~-4 ~10 minecraft:glass 
@@ -598,7 +598,7 @@ setblock ~-7 ~-6 ~22 minecraft:repeater[facing=west]
 setblock ~-7 ~-8 ~22 minecraft:repeater[facing=west] 
 setblock ~-7 ~-10 ~22 minecraft:glass 
 setblock ~-7 ~-12 ~22 minecraft:repeater[facing=west] 
-setblock ~-7 ~-14 ~22 minecraft:repeater[facing=west] 
+setblock ~-7 ~-14 ~22 minecraft:glass 
 setblock ~-7 ~0 ~24 minecraft:glass 
 setblock ~-7 ~-2 ~24 minecraft:repeater[facing=west] 
 setblock ~-7 ~-4 ~24 minecraft:glass 
@@ -654,7 +654,7 @@ setblock ~-7 ~-6 ~36 minecraft:repeater[facing=west]
 setblock ~-7 ~-8 ~36 minecraft:repeater[facing=west] 
 setblock ~-7 ~-10 ~36 minecraft:repeater[facing=west] 
 setblock ~-7 ~-12 ~36 minecraft:repeater[facing=west] 
-setblock ~-7 ~-14 ~36 minecraft:repeater[facing=west] 
+setblock ~-7 ~-14 ~36 minecraft:glass 
 setblock ~-7 ~0 ~38 minecraft:glass 
 setblock ~-7 ~-2 ~38 minecraft:repeater[facing=west] 
 setblock ~-7 ~-4 ~38 minecraft:glass 
@@ -708,8 +708,8 @@ setblock ~-7 ~-2 ~50 minecraft:repeater[facing=west]
 setblock ~-7 ~-4 ~50 minecraft:glass 
 setblock ~-7 ~-6 ~50 minecraft:glass 
 setblock ~-7 ~-8 ~50 minecraft:glass 
-setblock ~-7 ~-10 ~50 minecraft:repeater[facing=west] 
-setblock ~-7 ~-12 ~50 minecraft:glass 
+setblock ~-7 ~-10 ~50 minecraft:glass 
+setblock ~-7 ~-12 ~50 minecraft:repeater[facing=west] 
 setblock ~-7 ~-14 ~50 minecraft:glass 
 setblock ~-7 ~0 ~52 minecraft:glass 
 setblock ~-7 ~-2 ~52 minecraft:repeater[facing=west] 
@@ -763,9 +763,9 @@ setblock ~-7 ~0 ~64 minecraft:repeater[facing=west]
 setblock ~-7 ~-2 ~64 minecraft:glass 
 setblock ~-7 ~-4 ~64 minecraft:glass 
 setblock ~-7 ~-6 ~64 minecraft:glass 
-setblock ~-7 ~-8 ~64 minecraft:repeater[facing=west] 
-setblock ~-7 ~-10 ~64 minecraft:glass 
-setblock ~-7 ~-12 ~64 minecraft:glass 
+setblock ~-7 ~-8 ~64 minecraft:glass 
+setblock ~-7 ~-10 ~64 minecraft:repeater[facing=west] 
+setblock ~-7 ~-12 ~64 minecraft:repeater[facing=west] 
 setblock ~-7 ~-14 ~64 minecraft:glass 
 setblock ~-7 ~0 ~66 minecraft:glass 
 setblock ~-7 ~-2 ~66 minecraft:repeater[facing=west] 
@@ -2014,7 +2014,7 @@ setblock ~-21 ~-6 ~120 minecraft:repeater[facing=west]
 setblock ~-21 ~-8 ~120 minecraft:repeater[facing=west] 
 setblock ~-21 ~-10 ~120 minecraft:glass 
 setblock ~-21 ~-12 ~120 minecraft:glass 
-setblock ~-21 ~-14 ~120 minecraft:repeater[facing=west] 
+setblock ~-21 ~-14 ~120 minecraft:glass 
 setblock ~-21 ~0 ~122 minecraft:glass 
 setblock ~-21 ~-2 ~122 minecraft:repeater[facing=west] 
 setblock ~-21 ~-4 ~122 minecraft:glass 
@@ -2558,7 +2558,7 @@ setblock ~-28 ~-6 ~128 minecraft:repeater[facing=west]
 setblock ~-28 ~-8 ~128 minecraft:repeater[facing=west] 
 setblock ~-28 ~-10 ~128 minecraft:repeater[facing=west] 
 setblock ~-28 ~-12 ~128 minecraft:glass 
-setblock ~-28 ~-14 ~128 minecraft:repeater[facing=west] 
+setblock ~-28 ~-14 ~128 minecraft:glass 
 setblock ~-35 ~0 ~2 minecraft:glass 
 setblock ~-35 ~-2 ~2 minecraft:repeater[facing=west] 
 setblock ~-35 ~-4 ~2 minecraft:glass 
@@ -3102,7 +3102,7 @@ setblock ~-42 ~-6 ~8 minecraft:glass
 setblock ~-42 ~-8 ~8 minecraft:glass 
 setblock ~-42 ~-10 ~8 minecraft:glass 
 setblock ~-42 ~-12 ~8 minecraft:glass 
-setblock ~-42 ~-14 ~8 minecraft:repeater[facing=west] 
+setblock ~-42 ~-14 ~8 minecraft:glass 
 setblock ~-42 ~0 ~10 minecraft:glass 
 setblock ~-42 ~-2 ~10 minecraft:repeater[facing=west] 
 setblock ~-42 ~-4 ~10 minecraft:glass 
@@ -3646,7 +3646,7 @@ setblock ~-49 ~-6 ~16 minecraft:glass
 setblock ~-49 ~-8 ~16 minecraft:glass 
 setblock ~-49 ~-10 ~16 minecraft:repeater[facing=west] 
 setblock ~-49 ~-12 ~16 minecraft:glass 
-setblock ~-49 ~-14 ~16 minecraft:repeater[facing=west] 
+setblock ~-49 ~-14 ~16 minecraft:glass 
 setblock ~-49 ~0 ~18 minecraft:glass 
 setblock ~-49 ~-2 ~18 minecraft:repeater[facing=west] 
 setblock ~-49 ~-4 ~18 minecraft:glass 
@@ -4189,7 +4189,7 @@ setblock ~-56 ~-4 ~24 minecraft:repeater[facing=west]
 setblock ~-56 ~-6 ~24 minecraft:glass 
 setblock ~-56 ~-8 ~24 minecraft:repeater[facing=west] 
 setblock ~-56 ~-10 ~24 minecraft:glass 
-setblock ~-56 ~-12 ~24 minecraft:repeater[facing=west] 
+setblock ~-56 ~-12 ~24 minecraft:glass 
 setblock ~-56 ~-14 ~24 minecraft:glass 
 setblock ~-56 ~0 ~26 minecraft:glass 
 setblock ~-56 ~-2 ~26 minecraft:repeater[facing=west] 
@@ -4733,7 +4733,7 @@ setblock ~-63 ~-4 ~32 minecraft:repeater[facing=west]
 setblock ~-63 ~-6 ~32 minecraft:glass 
 setblock ~-63 ~-8 ~32 minecraft:repeater[facing=west] 
 setblock ~-63 ~-10 ~32 minecraft:repeater[facing=west] 
-setblock ~-63 ~-12 ~32 minecraft:repeater[facing=west] 
+setblock ~-63 ~-12 ~32 minecraft:glass 
 setblock ~-63 ~-14 ~32 minecraft:glass 
 setblock ~-63 ~0 ~34 minecraft:glass 
 setblock ~-63 ~-2 ~34 minecraft:repeater[facing=west] 
@@ -5277,7 +5277,7 @@ setblock ~-70 ~-4 ~40 minecraft:repeater[facing=west]
 setblock ~-70 ~-6 ~40 minecraft:repeater[facing=west] 
 setblock ~-70 ~-8 ~40 minecraft:glass 
 setblock ~-70 ~-10 ~40 minecraft:glass 
-setblock ~-70 ~-12 ~40 minecraft:repeater[facing=west] 
+setblock ~-70 ~-12 ~40 minecraft:glass 
 setblock ~-70 ~-14 ~40 minecraft:glass 
 setblock ~-70 ~0 ~42 minecraft:glass 
 setblock ~-70 ~-2 ~42 minecraft:repeater[facing=west] 
