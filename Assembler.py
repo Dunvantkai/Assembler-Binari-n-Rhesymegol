@@ -112,7 +112,7 @@ def compile(programData, txtfilenamepath):
             number = int(number)
             if loadAddress == True:
                 if operand_number == "LWD":
-                    opcode_text = lwd_check(opcode_text)
+                    opcode_text = str(int(opcode_text) % 256) # lwdnum_check
                     B8binary = opcode_text
                     try :
                         B8binary = int(B8binary)
@@ -169,20 +169,6 @@ def compile(programData, txtfilenamepath):
                 address += 1
         f.write("11111111:End of Program\n")       
     return issue_found  
-
-
-def lwd_check(lwdnum):
-    lwdnum = int(lwdnum)
-    if lwdnum > 255: 
-        lwdnum=lwdnum - 256
-        if lwdnum > 255:
-            lwdnum=lwdnum - 256
-            if lwdnum > 255:
-                lwdnum=lwdnum - 256
-                    #most sh!t code here but like it works lol
-    # print(lwdnum)                    
-    lwdnum = str(lwdnum)
-    return lwdnum
 
 
 def oprand_check(opcode_text, operand_number, issue_found, number):
