@@ -1,23 +1,25 @@
 import sys
 import os
 import shutil
+import keyboard
+import time
+
 
 def preprocess():
     os.chdir(os.path.dirname(os.path.abspath(sys.argv[0])))
 
+
 def read_file(filename: str):
-    try:
-        while True:  
-            if not filename.endswith(".bnr"):
-                filename += ".bnr"
+    while True:  
+        if not filename.lower().endswith(".bnr"):
+            filename += ".bnr"
 
-            lines = read(filename)
-            if lines is not None:
-                return lines
+        lines = read(filename)
+        if lines is not None:
+            return lines
 
-            filename = input("[>] Enter filename (.bnr): ")
-    except KeyboardInterrupt:
-        raise Exception("No file provided.")
+        filename = input("[>] Enter filename (.bnr): ")
+
 
 def read(filename: str):
     try:
@@ -28,6 +30,7 @@ def read(filename: str):
         print(f"[?] File '{filename}' not found.")
         return None
     
+
 def creu(filename: str):
     try:
         if os.path.exists(filename):
@@ -41,6 +44,7 @@ def creu(filename: str):
         return txtfilenamepath
     except OSError:
         raise Exception("Failed to create output directory.")
+
 
 def build(lîns):
     programData = []
@@ -64,6 +68,7 @@ def build(lîns):
     # print("Opcode text:", opcode_text)
     # print("Comment:", comment)
     return (programData)
+
 
 def compile(programData, txtfilenamepath): 
     loadAddress = False
@@ -163,6 +168,8 @@ def compile(programData, txtfilenamepath):
                 address += 1
         f.write("11111111:End of Program\n")       
     return issue_found  
+
+
 def lwd_check(lwdnum):
     lwdnum = int(lwdnum)
     if lwdnum > 255: 
@@ -175,6 +182,7 @@ def lwd_check(lwdnum):
     # print(lwdnum)                    
     lwdnum = str(lwdnum)
     return lwdnum
+
 
 def oprand_check(opcode_text, operand_number, issue_found, number):
     LOGICOPRANDS = {
@@ -289,6 +297,7 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
         issue_found[number] = f"Out of Bounds Operand: {operand_number}"
     return issue_found        
 
+
 def main():    
     print("=== Binari'n Rhesymegol Token Assembler v3.3 ===")
     print("------------------------------------------------")
@@ -315,18 +324,22 @@ def main():
                 print(f"Line {line}: {issue}")
         else:
             print("Compilation successful with no issues.")
-    except KeyboardInterrupt:
-        print("\n[-] Process interrupted by user.")
+    except (KeyboardInterrupt, SystemExit):
+        print("\n[-] Process interrupted by user...")
+        return
     except Exception as e:
-        print("\n[-] Fatal Error:", str(e))
-    finally:
-        step = input("\n[>] Press 'r' to run again or any other key to exit: ")
-        if (step.lower() == 'r'):
-            os.system('cls')
-            main()
-            return
-    
+        print("[-] Fatal Error:", str(e))
+
+    time.sleep(0.25)
+    print("\n[>] Press 'r' to run again or any other key to exit: ")
+
+    key = keyboard.read_key()
+    if (key.lower() != 'r'):
         print("[-] Exiting...")
+        return
+    
+    os.system('cls')
+    main()
 
 
 if __name__ == "__main__":
