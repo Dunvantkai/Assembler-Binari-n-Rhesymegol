@@ -16,7 +16,8 @@ def read_file(filename: str):
 
         lines = read(filename)
         if lines is not None:
-            return lines
+            filename = filename.strip('.bnr')
+            return filename, lines
 
         filename = input("[>] Enter filename (.bnr): ")
 
@@ -313,9 +314,11 @@ def main():
         if not filename:
             filename = input("[>] Enter filename (.bnr): ")
 
-        lînes = read_file(filename)
+        filename, lînes = read_file(filename)
+
         txtfilenamepath = creu(filename)
         programData = build(lînes)
+
         issue_found = compile(programData, txtfilenamepath)
 
         if issue_found:
@@ -323,7 +326,7 @@ def main():
             for line, issue in issue_found.items():
                 print(f"Line {line}: {issue}")
         else:
-            print("Compilation successful with no issues.")
+            print("[+] Compilation successful with no issues.")
     except (KeyboardInterrupt, SystemExit):
         print("\n[-] Process interrupted by user...")
         return
