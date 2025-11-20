@@ -167,7 +167,7 @@ def compile(programData, txtfilenamepath):
                     issue_found[number] = f"Unknown opcode: {opcode_text}"
                 f.write(operand_number + opcode + ":" + comment + "\n")
                 address += 1
-        f.write("11111111:End of Program\n")       
+        f.write("11111111:END OF PROGRAM:Assembled v3.4\n")       
     return issue_found  
 
 
@@ -286,7 +286,7 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
 
 
 def main():    
-    print("=== Binari'n Rhesymegol Token Assembler v3.3 ===")
+    print("=== Binari'n Rhesymegol Token Assembler v3.4 ===")
     print("------------------------------------------------")
     print()
 
