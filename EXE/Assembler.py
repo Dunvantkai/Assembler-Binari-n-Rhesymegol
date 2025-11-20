@@ -1,23 +1,26 @@
 import sys
 import os
 import shutil
+import keyboard
+import time
+
 
 def preprocess():
     os.chdir(os.path.dirname(os.path.abspath(sys.argv[0])))
 
+
 def read_file(filename: str):
-    try:
-        while True:  
-            if not filename.endswith(".bnr"):
-                filename += ".bnr"
+    while True:  
+        if not filename.lower().endswith(".bnr"):
+            filename += ".bnr"
 
-            lines = read(filename)
-            if lines is not None:
-                return lines
+        lines = read(filename)
+        if lines is not None:
+            filename = filename.strip('.bnr')
+            return filename, lines
 
-            filename = input("[>] Enter filename (.bnr): ")
-    except KeyboardInterrupt:
-        raise Exception("No file provided.")
+        filename = input("[>] Enter filename (.bnr): ")
+
 
 def read(filename: str):
     try:
@@ -28,6 +31,7 @@ def read(filename: str):
         print(f"[?] File '{filename}' not found.")
         return None
     
+
 def creu(filename: str):
     try:
         if os.path.exists(filename):
@@ -41,6 +45,7 @@ def creu(filename: str):
         return txtfilenamepath
     except OSError:
         raise Exception("Failed to create output directory.")
+
 
 def build(lîns):
     programData = []
@@ -64,6 +69,7 @@ def build(lîns):
     # print("Opcode text:", opcode_text)
     # print("Comment:", comment)
     return (programData)
+
 
 def compile(programData, txtfilenamepath): 
     loadAddress = False
@@ -106,7 +112,7 @@ def compile(programData, txtfilenamepath):
             number = int(number)
             if loadAddress == True:
                 if operand_number == "LWD":
-                    opcode_text = lwd_check(opcode_text)
+                    opcode_text = str(int(opcode_text) % 256) # lwdnum_check
                     B8binary = opcode_text
                     try :
                         B8binary = int(B8binary)
@@ -161,20 +167,9 @@ def compile(programData, txtfilenamepath):
                     issue_found[number] = f"Unknown opcode: {opcode_text}"
                 f.write(operand_number + opcode + ":" + comment + "\n")
                 address += 1
-        f.write("11111111:End of Program\n")       
+        f.write("11111111:END OF PROGRAM:Assembled v3.4\n")       
     return issue_found  
-def lwd_check(lwdnum):
-    lwdnum = int(lwdnum)
-    if lwdnum > 255: 
-        lwdnum=lwdnum - 256
-        if lwdnum > 255:
-            lwdnum=lwdnum - 256
-            if lwdnum > 255:
-                lwdnum=lwdnum - 256
-                    #most sh!t code here but like it works lol
-    # print(lwdnum)                    
-    lwdnum = str(lwdnum)
-    return lwdnum
+
 
 def oprand_check(opcode_text, operand_number, issue_found, number):
     LOGICOPRANDS = {
@@ -289,8 +284,9 @@ def oprand_check(opcode_text, operand_number, issue_found, number):
         issue_found[number] = f"Out of Bounds Operand: {operand_number}"
     return issue_found        
 
+
 def main():    
-    print("=== Binari'n Rhesymegol Token Assembler v3.3 ===")
+    print("=== Binari'n Rhesymegol Token Assembler v3.4 ===")
     print("------------------------------------------------")
     print()
 
@@ -304,9 +300,11 @@ def main():
         if not filename:
             filename = input("[>] Enter filename (.bnr): ")
 
-        lînes = read_file(filename)
+        filename, lînes = read_file(filename)
+
         txtfilenamepath = creu(filename)
         programData = build(lînes)
+
         issue_found = compile(programData, txtfilenamepath)
 
         if issue_found:
@@ -314,19 +312,23 @@ def main():
             for line, issue in issue_found.items():
                 print(f"Line {line}: {issue}")
         else:
-            print("Compilation successful with no issues.")
-    except KeyboardInterrupt:
-        print("\n[-] Process interrupted by user.")
+            print("[+] Compilation successful with no issues.")
+    except (KeyboardInterrupt, SystemExit):
+        print("\n[-] Process interrupted by user...")
+        return
     except Exception as e:
-        print("\n[-] Fatal Error:", str(e))
-    finally:
-        step = input("\n[>] Press 'r' to run again or any other key to exit: ")
-        if (step.lower() == 'r'):
-            os.system('cls')
-            main()
-            return
-    
+        print("[-] Fatal Error:", str(e))
+
+    time.sleep(0.25)
+    print("\n[>] Press 'r' to run again or any other key to exit: ")
+
+    key = keyboard.read_key()
+    if (key.lower() != 'r'):
         print("[-] Exiting...")
+        return
+    
+    os.system('cls')
+    main()
 
 
 if __name__ == "__main__":
