@@ -1,11 +1,15 @@
 # Binari'n-Rhesymegol
 Assembler to Machine code for Minecraft redstone pc Binari'n Rhesymegol
 ## Photos
+<img width="1920" height="1080" alt="image" src="https://github.com/Dunvantkai/Assembler-Binari-n-Rhesymegol/blob/main/Photos/1.png" />
+<img width="1920" height="1080" alt="image" src="https://github.com/Dunvantkai/Assembler-Binari-n-Rhesymegol/blob/main/Photos/2.png" />
+<img width="1920" height="1080" alt="image" src="https://github.com/Dunvantkai/Assembler-Binari-n-Rhesymegol/blob/main/Photos/3.png" />
+<img width="1920" height="1080" alt="image" src="https://github.com/Dunvantkai/Assembler-Binari-n-Rhesymegol/blob/main/Photos/4.png" />
 ## Documentaion
 Instruction Format
 consists of:
 [operand] [opcode] <br>
-
+<img width="257" height="661" alt="image" src="https://github.com/user-attachments/assets/150298f6-0263-4aa7-acd8-c5cac31b8901" />
 ==Table==
 <br><br>
 <img width="257" height="661" alt="image" src="https://github.com/user-attachments/assets/150298f6-0263-4aa7-acd8-c5cac31b8901" />
