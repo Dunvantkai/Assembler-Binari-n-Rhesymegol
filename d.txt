@@ -1,10 +1,4 @@
-curl -k -H "Authorization: PVEAPIToken=report@pve!reporting=521e6791-a650-4109-91e3-02ebd5fbc6d3" \
-  https://10.150.5.67:8006/api2/json/cluster/resources
-
-curl -k -H 'Authorization: PVEAPIToken=report@pve!reporting=521e6791-a650-4109-91e3-02ebd5fbc6d3' \
-  https://10.150.5.67:8006/api2/json/cluster/resources
-
-curl -k -H 'Authorization: PVEAPIToken=report@pve!reporting=521e6791-a650-4109-91e3-02ebd5fbc6d3' \
-  https://192.168.67.2:8006/api2/json/cluster/resources
-
-curl -ik -H 'Authorization: PVEAPIToken=report@pve!reporting=521e6791-a650-4109-91e3-02ebd5fbc6d3' https://192.168.67.2:8006/api2/json/cluster/resources
+TOKEN_ID='report@pam!reporting'
+SECRET='e6ce4229-e38d-4677-8d39-18e0e5b68384'
+curl -ik -H 'Authorization: PVEAPIToken=report@pam!reporting=e6ce4229-e38d-4677-8d39-18e0e5b68384' https://10.150.5.67:8006/api2/json/cluster/resources
+e6ce4229-e38d-4677-8d39-18e0e5b68384
