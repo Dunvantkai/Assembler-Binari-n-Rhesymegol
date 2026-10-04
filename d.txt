@@ -4,3 +4,39 @@ curl -ik -H 'Authorization: PVEAPIToken=report@pam!reporting=e6ce4229-e38d-4677-
 curl -ik -H 'Authorization: PVEAPIToken=report@pam!reporting=e6ce4229-e38d-4677-8d39-18e0e5b68384' https://192.168.67.2:8006/api2/json/cluster/resources
 
 e6ce4229-e38d-4677-8d39-18e0e5b68384
+
+import os, json, requests, urllib3
+from google import genai
+
+urllib3.disable_warnings()  # Proxmox uses a self-signed cert
+
+HOST = "https://192.168.67.2:8006/api2/json"
+HEADERS = {"Authorization": f"PVEAPIToken={os.environ['PVE_TOKEN']}"}
+
+def get(path):
+    r = requests.get(HOST + path, headers=HEADERS, verify=False)
+    r.raise_for_status()
+    return r.json()["data"]
+
+# Keep only the fields the report needs
+keep = ["id","type","name","node","status","cpu","maxcpu","mem","maxmem",
+        "disk","maxdisk","uptime","netin","netout"]
+resources = [{k: x[k] for k in keep if k in x} for x in get("/cluster/resources")]
+
+prompt = f"""Write a concise report on this Proxmox homelab.
+Convert bytes to GB, CPU to percent, uptime to days.
+Cover: overall health, resource usage per VM/container,
+storage capacity, and recommendations.
+Base conclusions only on this data.
+
+{json.dumps(resources)}"""
+
+client = genai.Client()  # picks up GEMINI_API_KEY
+response = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents=prompt,
+)
+
+with open("proxmox_report.md", "w") as f:
+    f.write(response.text)
+print(response.text)
