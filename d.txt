@@ -1,2 +1,8 @@
 curl -k -H "Authorization: PVEAPIToken=report@pve!reporting=521e6791-a650-4109-91e3-02ebd5fbc6d3" \
+  https://10.150.5.67:8006/api2/json/cluster/resources
+
+curl -k -H 'Authorization: PVEAPIToken=report@pve!reporting=521e6791-a650-4109-91e3-02ebd5fbc6d3' \
+  https://10.150.5.67:8006/api2/json/cluster/resources
+
+curl -k -H 'Authorization: PVEAPIToken=report@pve!reporting=521e6791-a650-4109-91e3-02ebd5fbc6d3' \
   https://192.168.67.2:8006/api2/json/cluster/resources
